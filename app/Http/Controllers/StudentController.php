@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Student\StoreFormValidation;
 use App\Http\Requests\Student\UpdateFormValidation;
+use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Services\StudentService;
 use App\Traits\FileHelper;
@@ -23,7 +24,7 @@ class StudentController extends Controller
     public function index() : JsonResponse
     {
         $students = $this->student->get();
-        return response()->json(['success' => true, 'data' => $students], 200);
+        return response()->json(['success' => true, 'data' => StudentResource::collection($students)], 200);
     }
 
     public function show($id) : JsonResponse
@@ -32,7 +33,7 @@ class StudentController extends Controller
         if (!$student) {
             return response()->json(['error' => true, 'message' => 'Student not found.'], 404);
         }
-        return response()->json(['success' => true, 'data' => $student], 200);
+        return response()->json(['success' => true, 'data' => new StudentResource($student)], 200);
     }
 
     public function store(StoreFormValidation $request): JsonResponse
