@@ -22,7 +22,12 @@ class UpdateFormValidation extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|regex:/^[a-zA-Z\s]*$/',
+            'email' => 'required|email',
+            'mobile' => 'required|numeric|digits:10|starts_with:98,97',
+            'current_address' => 'required',
+            'image' => 'nullable|image|mimes:png,jpg,webp|max:1024',
+            'dob' => 'nullable',
         ];
     }
 }
